@@ -1,15 +1,48 @@
-<table>
-  <tr>
-    <th>Task name</th>
-    <th>Task note</th>
-    <th>Due date</th>
-    <th>Action</th>
-  </tr>
-  <% @tasks.each do |t| %>
-  <tr>
-    <td><%= t.name %></td>
-    <td><%= t.note %></td>
-    <td><%= t.duedate %></td>
-  </tr>
-  <% end %>
-</table>
+<div class="container">
+  <div class="row mt2 mb2 text-center">
+    <div class="col-md-6 col-md-offset-3">
+      <h1>Max Do List</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3 col-md-offset-3 mb1">
+      Today: <%= Date.today %>
+    </div>
+    <div class="col-md-3 text-right mb1">
+      <%= link_to 'New Task', new_task_path, class:"btn btn-success" %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <table class="table table-hover">
+        <tr>
+          <th></th>
+          <th>Task</th>
+          <th>Due date</th>
+          <th>Action</th>
+        </tr>
+        <% @tasks.each do |task| %>
+          <tr class="<%= 'danger' if Date.today > task.duedate && task.done == false %>">
+            <td>
+              <% if task.done %>
+                <%= link_to fa_icon("check-square-o"), not_yet_task_path(task) %>
+              <% else %>
+                <%= link_to fa_icon("square-o"), done_task_path(task) %>
+              <% end %>
+            </td>
+            <td>
+              <span class=<%= "done" if task.done %>><%= link_to task.name, task_path(task) %><span>
+            </td>
+            <td><%= task.duedate %></td>
+            <td>
+              <%= link_to fa_icon("pencil"), edit_task_path(task), class: "label label-primary" %>
+              <% if Date.today <= task.duedate %>
+                <%= link_to fa_icon("trash"), task_path(task), method: :delete, data:{ confirm: "Are you sure?"} , class: "label label-danger" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
