@@ -1,0 +1,15 @@
+<table>
+  <tr>
+    <th>Task name</th>
+    <th>Task note</th>
+    <th>Due date</th>
+    <th>Action</th>
+  </tr>
+  <% @tasks.each do |t| %>
+  <tr>
+    <td><%= t.name %></td>
+    <td><%= t.note %></td>
+    <td><%= t.duedate %></td>
+  </tr>
+  <% end %>
+</table>
